@@ -7,10 +7,11 @@
 #include<assert.h> 
 #include<string.h> 
 #include<unistd.h>
+#include<time.h>
 
 #define SOCK_PORT 8538
 #define MAX_CONN_LIMIT 10
-#define BUFFER_LEN 1024
+#define BUFFER_LEN 2048
 
 int main()
 {
@@ -25,6 +26,12 @@ int main()
 	int i_recv;
 	char recv_data[BUFFER_LEN];
 	char send_data[BUFFER_LEN];
+	
+	//增加回应系统时间功能
+	time_t timep;
+	time (&timep);
+	char tmp[2048];
+	//strftime(tmp,sizeof(tmp),"%Y-%m-%d %H:%M:%S",localtime(&timep));
 
 	sockfd_server = socket(AF_INET,SOCK_STREAM,0); //使用ipv4，TCP
 	assert(sockfd_server != -1);  //判断是否返回成功
@@ -65,6 +72,7 @@ int main()
 		
 		memset(recv_data,0,BUFFER_LEN); //初始化数组
 		memset(send_data,0,BUFFER_LEN);
+		memset(tmp,0,sizeof(tmp));
 		i_recv = read(sockfd,recv_data,BUFFER_LEN); //接受cilent信息
 		if(i_recv == 0)
 		{
@@ -81,9 +89,15 @@ int main()
 			printf("cilent quit!\n");
 			break;
 		}
+		strftime(tmp,sizeof(tmp),"%Y-%m-%d %H:%M:%S :",localtime(&timep));
+		//测试是否每次均成功获取时间
+		//printf("%s\n",tmp);
 		printf("cilent : %s \n",recv_data);
 		strcpy(send_data,recv_data);
-		write(sockfd,send_data,BUFFER_LEN);
+		strcat(tmp,send_data);
+		printf("%s\n",tmp);
+		write(sockfd,tmp,sizeof(tmp));
+		//write(sockfd,send_data,BUFFER_LEN);
 	}
 	close(sockfd);
 	close(sockfd_server);

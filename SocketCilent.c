@@ -8,7 +8,7 @@
 #include<unistd.h>
 
 #define SOCK_PORT 8538  //端口预设
-#define BUFFER_LEN 1024 
+#define BUFFER_LEN 2048 
 
 int main()
 {
