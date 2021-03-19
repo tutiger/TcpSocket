@@ -13,7 +13,7 @@
 #define MAX_CONN_LIMIT 10
 #define BUFFER_LEN 2048
 
-int main()
+int main(int argc,char* argv[])
 {
 
 	int sockfd_server;
@@ -40,7 +40,9 @@ int main()
 	memset(&s_addr_in,0,sizeof(s_addr_in));  //初始化
 	s_addr_in.sin_family = AF_INET; //设置为ipv4
 	s_addr_in.sin_addr.s_addr = htonl(INADDR_ANY); //储存任意ip地址 
-	s_addr_in.sin_port = htons(SOCK_PORT); //设置port
+	//s_addr_in.sin_port = htons(SOCK_PORT); //设置port
+	int port=atoi(argv[1]);
+	s_addr_in.sin_port = htons(port); //输入端口绑定
 
 	fd_temp = bind(sockfd_server,(void*)(&s_addr_in),sizeof(s_addr_in));  //绑定地址和端口
 	if(fd_temp == -1)

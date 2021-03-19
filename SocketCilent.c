@@ -10,7 +10,7 @@
 #define SOCK_PORT 8538  //端口预设
 #define BUFFER_LEN 2048 
 
-int main()
+int main(int argc,char* argv[])
 {
 	int sockfd;
 	int tempfd;
@@ -31,7 +31,9 @@ int main()
 	memset(&s_addr_in,0,sizeof(s_addr_in));
 	s_addr_in.sin_addr.s_addr = inet_addr("127.0.0.1"); //inet_addr将一个点间隔地址转换成网络字节序	
 	s_addr_in.sin_family = AF_INET;
-	s_addr_in.sin_port = htons(SOCK_PORT);
+	//s_addr_in.sin_port = htons(SOCK_PORT);
+	int port = atoi(argv[1]);
+	s_addr_in.sin_port = htons(port);
 
 	tempfd = connect(sockfd,(struct sockaddr*) &s_addr_in,sizeof(s_addr_in));
 	if(tempfd == -1)
