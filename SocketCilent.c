@@ -57,7 +57,7 @@ int main(int argc,char* argv[])
 	while(1)
 	{
 		printf("please input anything you wanna tell server.....(input \"quit\" to quit)\n");
-		scanf("%[\n]",send_data);
+		scanf("%[^\n]",send_data);
 		getchar();
 
 		//将信息发送给服务端
